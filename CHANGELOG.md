@@ -1,4 +1,22 @@
-## 3.1.1
+## 3.3.0
+- Update bip32 lib
+
+## 3.2.1+3
+- Add token id to sig-hashing - fix buffer overflow
+
+## 3.2.1+2
+- Add token id to sig-hashing
+
+## 3.2.1+1
+- Fix tx hashing
+
+## 3.2.1
+- Fix buffer length for tokenId if version > 3
+
+## 3.2.0
+- Add tokenId to txb
+
+### 3.1.1
 - Update dependencies
 
 ## 3.1.0+1
