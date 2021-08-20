@@ -141,5 +141,25 @@ void main() {
       expect(txHex,
           '04000000000101e36cae314a321f79285fbad4d1d12ca8b71950e2f5938982b678a912ee49d45d0100000017160014bb9c2f70d1514a06a443e559f32ff714cbf090e1ffffffff01a4cecfb20000000017a9141084ef98bacfecbc9f140496b26516ae55d79bfa870002483045022100c87f1955d1c407dc517e6a28bcc152672728c14499a009a9623954b72d92de7f022031b033f2d9416533d36c455f6306328b007153411ae2e9c6e23ee723ac58e47b012102d38083820bbb90384190c807ffd960bc584573ae3177b70eec14b8e200a6a81100000000');
     });
+
+    test('can create a v4 transaction', () {
+      final alice = ECPair.fromWIF('cT6j7CUDF1JBoa3SUdTA4vJwvxRGXuq3ywzUPauzVGu3utBaWC7e', network: networks.defichain_testnet);
+      final p2wpkh = P2WPKH(data: PaymentData(pubkey: alice.publicKey)).data!;
+
+      final txb = TransactionBuilder(network: networks.defichain_testnet);
+      final fee = 500;
+      final dfiAmount = 2999963800;
+
+      txb.setVersion(4);
+      txb.addInput('5dd449ee12a978b6828993f5e25019b7a82cd1d1d4ba5f28791f324a31ae6ce3', 1);
+
+      // we use all funds from prev transaction here, so we do not need a return tx
+      txb.addOutput('tf1q0sdhm4s642cw4cfj952ghpxykgs4grqcvc7amc', dfiAmount - fee);
+      txb.sign(vin: 0, keyPair: alice, witnessValue: dfiAmount, redeemScript: p2wpkh.output);
+
+      var txHex = txb.build().toHex();
+      expect(txHex,
+          '04000000000101e36cae314a321f79285fbad4d1d12ca8b71950e2f5938982b678a912ee49d45d0100000017160014bb9c2f70d1514a06a443e559f32ff714cbf090e1ffffffff01a4cecfb20000000017a9141084ef98bacfecbc9f140496b26516ae55d79bfa870002483045022100c87f1955d1c407dc517e6a28bcc152672728c14499a009a9623954b72d92de7f022031b033f2d9416533d36c455f6306328b007153411ae2e9c6e23ee723ac58e47b012102d38083820bbb90384190c807ffd960bc584573ae3177b70eec14b8e200a6a81100000000');
+    });
   });
 }

@@ -1,3 +1,9 @@
+## 3.4.0+1
+- add custom bech32 lib to check hrp ourself
+
+## 3.4.0
+- Add another addPool tx possibility
+
 ## 3.3.0
 - Update bip32 lib
 

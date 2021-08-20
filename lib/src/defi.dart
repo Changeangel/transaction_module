@@ -142,6 +142,20 @@ class DefiTransactionHelper {
     return DefiOutput(_postpare(defiScript), 0);
   }
 
+  static DefiOutput createAddPoolLiquiditySingleAddress(String from, int tokenA, int fromAmountA, int tokenB, int fromAmountB, String shareAddress, [NetworkType? nw]) {
+    var script = _prepare(DefiTxTypes.AddPoolLiquidity);
+
+    script.add(1);
+    script.addAll(_createScript(from, nw));
+    script.addAll(_createBalance([tokenA, tokenB], [fromAmountA, fromAmountB]));
+
+    script.addAll(_createScript(shareAddress, nw));
+
+    var defiScript = Uint8List.fromList(script);
+
+    return DefiOutput(_postpare(defiScript), 0);
+  }
+
   static DefiOutput createRemovePoolLiquidity(String from, int token, int value, [NetworkType? nw]) {
     var script = _prepare(DefiTxTypes.RemovePoolLiquidity);
 
