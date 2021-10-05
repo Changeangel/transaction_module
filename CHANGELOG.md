@@ -1,3 +1,15 @@
+## 3.6.0
+- Add signMessage ECPair call
+
+## 3.5.1+1
+- Export magicHash function
+
+## 3.5.1
+- Fix signing prefix
+
+## 3.5.0
+- Fix for segwit and non-segwit inputs
+
 ## 3.4.0+1
 - add custom bech32 lib to check hrp ourself
 

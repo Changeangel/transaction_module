@@ -262,7 +262,15 @@ class Transaction {
         varuint.encodingLength(outs.length) +
         ins.fold(0, (sum, input) => sum + 40 + varSliceSize(input.script!)) +
         outs.fold(0, (sum, output) => sum + (this.version! > MIN_VERSION_NO_TOKENS ? 1 : 0) + 8 + varSliceSize(output.script!)) +
-        (hasWitness ? ins.fold(0, (sum, input) => sum + vectorSize(input.witness!)) : 0);
+        (hasWitness ? ins.fold(0, (sum, input) => sum + vectorSizeNew(input)) : 0);
+  }
+
+  int vectorSizeNew(Input input) {
+    if (input.witness != null && input.witness!.isNotEmpty) {
+      return vectorSize(input.witness!);
+    }
+
+    return varuint.encodingLength(0);
   }
 
   int vectorSize(List<Uint8List?> someVector) {
@@ -397,7 +405,11 @@ class Transaction {
 
     if (_ALLOW_WITNESS && hasWitnesses()) {
       ins.forEach((txInt) {
-        writeVector(txInt.witness);
+        if (txInt.witness == null) {
+          writeVarInt(0);
+        } else {
+          writeVector(txInt.witness);
+        }
       });
     }
 

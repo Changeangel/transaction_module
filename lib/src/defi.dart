@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:defichaindart/src/utils/constants/op.dart';
 import 'package:defichaindart/src/utils/varuint.dart';
+import 'package:hex/hex.dart';
 
 import '../defichaindart.dart';
 
@@ -37,6 +38,14 @@ class DefiTxTypes {
 
   // Auto auth TX
   static var AutoAuthPrep = 'A';
+
+  static var ICX_CreateOrder = '1';
+  static var ICX_MakeOffer = '2';
+  static var ICX_Submit_DFC_HTLC = '3';
+  static var ICX_Submit_EXT_HTLC = '4';
+  static var ICX_Claim_DFC_HTLC = '5';
+  static var ICX_CloseOrder = '6';
+  static var ICX_CloseOffer = '7';
 }
 
 class DefiOutput extends OutputBase {
@@ -76,6 +85,15 @@ class DefiTransactionHelper {
     cscript.addAll(defiScript);
 
     return Uint8List.fromList(cscript);
+  }
+
+  static DefiOutput createIcxMakeOffer(String orderTx, dynamic amount, dynamic ownerAddress, dynamic receivePubKey, dynamic expiry) {
+    var script = _prepare(DefiTxTypes.ICX_MakeOffer);
+
+    script.addAll(HEX.decode(orderTx));
+
+    var defiScript = Uint8List.fromList(script);
+    return DefiOutput(_postpare(defiScript), 0);
   }
 
   static DefiOutput createAccountToAccountOuput(dynamic token, dynamic from, dynamic to, int toValue, [NetworkType? nw]) {

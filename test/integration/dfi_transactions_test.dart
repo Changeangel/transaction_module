@@ -6,6 +6,13 @@ import 'package:defichaindart/src/ecpair.dart';
 import 'package:defichaindart/src/transaction_builder.dart';
 import 'package:defichaindart/src/models/networks.dart' as networks;
 
+import 'package:bip32_defichain/bip32.dart' as bip32;
+
+bip32.NetworkType getNetwork(NetworkType networkInstance) {
+  final networkType = bip32.NetworkType(bip32: bip32.Bip32Type(private: networkInstance.bip32.private, public: networkInstance.bip32.public), wif: networkInstance.wif);
+  return networkType;
+}
+
 void main() {
   group('defi transactions', () {
     test('can create a AnyAccountsToAccounts transaction', () {
@@ -160,6 +167,37 @@ void main() {
       var txHex = txb.build().toHex();
       expect(txHex,
           '04000000000101e36cae314a321f79285fbad4d1d12ca8b71950e2f5938982b678a912ee49d45d0100000017160014bb9c2f70d1514a06a443e559f32ff714cbf090e1ffffffff01a4cecfb20000000017a9141084ef98bacfecbc9f140496b26516ae55d79bfa870002483045022100c87f1955d1c407dc517e6a28bcc152672728c14499a009a9623954b72d92de7f022031b033f2d9416533d36c455f6306328b007153411ae2e9c6e23ee723ac58e47b012102d38083820bbb90384190c807ffd960bc584573ae3177b70eec14b8e200a6a81100000000');
+    });
+
+    test('create transaction with P2WPKH input', () {
+      var phrase = "rely denial exact surprise entire female lounge play put click charge finger leader true raven mobile inflict kitten lady topic caught input there apple";
+
+      var seed = mnemonicToSeed(phrase);
+      var wallet = bip32.BIP32.fromSeedWithCustomKey(seed, "@defichain/jellyfish-wallet-mnemonic", getNetwork(defichain_testnet));
+
+      var key = wallet.derivePath("1129/0/0/0");
+      final address = P2WPKH(data: PaymentData(pubkey: key.publicKey), network: defichain_testnet).data!.address;
+
+      expect(address, "tf1q0sdhm4s642cw4cfj952ghpxykgs4grqcvc7amc");
+
+      final p2wpkh = P2WPKH(data: PaymentData(pubkey: key.publicKey), network: networks.defichain_testnet).data!;
+      final txb = TransactionBuilder(network: networks.defichain_testnet);
+      txb.setVersion(4);
+      txb.addInput('b923e15549819af41aebd09506d1b9515aa5739f3e778f70e74ec53aa7740563', 0, null, p2wpkh.output);
+      txb.addInput('b923e15549819af41aebd09506d1b9515aa5739f3e778f70e74ec53aa7740563', 1, null, p2wpkh.output);
+      txb.addInput('87aa5fae47f4b9bdc71edde7c11d33e753847d589240d3d02629351ae7b250f0', 0, null, p2wpkh.output);
+
+      txb.addOutput("tf1qqmqp5efqfuf5tk06ty0qpzz3jkud9d6f0qxn0d", 1000000000);
+      txb.addOutput("tf1q0sdhm4s642cw4cfj952ghpxykgs4grqcvc7amc", 7099995060);
+
+      txb.sign(vin: 0, keyPair: ECPair.fromPrivateKey(key.privateKey!, network: networks.defichain_testnet), witnessValue: 100000000);
+      txb.sign(vin: 1, keyPair: ECPair.fromPrivateKey(key.privateKey!, network: networks.defichain_testnet), witnessValue: 7899996450);
+      txb.sign(vin: 2, keyPair: ECPair.fromPrivateKey(key.privateKey!, network: networks.defichain_testnet), witnessValue: 100000000);
+      // // prepare for broadcast to the Bitcoin network, see 'can broadcast a Transaction' below
+
+      final hexTx = txb.build().toHex();
+      expect(hexTx,
+          '04000000000103630574a73ac54ee7708f773e9f73a55a51b9d10695d0eb1af49a814955e123b90000000000ffffffff630574a73ac54ee7708f773e9f73a55a51b9d10695d0eb1af49a814955e123b90100000000fffffffff050b2e71a352926d0d34092587d8453e7331dc1e7dd1ec7bdb9f447ae5faa870000000000ffffffff0200ca9a3b0000000016001406c01a65204f1345d9fa591e00885195b8d2b74900b45331a7010000001600147c1b7dd61aaab0eae1322d148b84c4b221540c180002473044022043af0e425e6d6e4dbc70e0e081a5c236c9a7da3748aaf6b36a3c35acf1885b76022076f2716bf72966e93e524a79dee05b4457bc0f450447baaa50cf881274b05f8d0121023a4f64906e99902e7f44c3099bed77ea435b5e1b80559274a1d3b377f7cd747b02473044022067d27e4b27e01949c4a2fe16dd8cffce0fba87d9e308b551d0328779398be99702200416fc8a02a4f6352514784815afbb8c54118d9a3841f3ceea1031bb4db1458a0121023a4f64906e99902e7f44c3099bed77ea435b5e1b80559274a1d3b377f7cd747b0247304402203612f6105fdf87a216471059953c8570e9e2d7f76eec3f137ab55c1193799d13022017a8f65e3c6c8d2f1b18449966f571ef300a00a58bcd1cc47d8183a0168f5c070121023a4f64906e99902e7f44c3099bed77ea435b5e1b80559274a1d3b377f7cd747b00000000');
     });
   });
 }
