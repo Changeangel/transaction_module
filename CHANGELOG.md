@@ -1,3 +1,6 @@
+## 3.6.0+1
+- Update refs
+
 ## 3.6.0
 - Add signMessage ECPair call
 
