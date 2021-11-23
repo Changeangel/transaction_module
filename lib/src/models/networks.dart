@@ -37,3 +37,6 @@ final defichain = NetworkType(
 
 final defichain_testnet =
     NetworkType(messagePrefix: '\x15Defi Signed Message:\n', bech32: 'tf', bip32: Bip32Type(public: 0x043587cf, private: 0x04358394), pubKeyHash: 0xf, scriptHash: 0x80, wif: 0xef);
+
+final defichain_regtest = NetworkType(
+    messagePrefix: '\x15Defi Signed Message:\n', bech32: 'bcrt', bip32: Bip32Type(public: 0x043587cf, private: 0x04358394), pubKeyHash: 0x6f, scriptHash: 0xc4, wif: 0xef);

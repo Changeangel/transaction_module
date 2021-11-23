@@ -21,11 +21,9 @@ void main() {
       final privateKey = ECPair.fromWIF('5KYZdUEo39z3FPrtuX2QbbwGnNP5zTd7yyr2SC1j299sBCnWjss', network: networks.bitcoin);
       var msg = 'vires is numeris';
 
-      var magicHashRes = magicHash(msg, networks.bitcoin);
-      var signed = privateKey.sign(magicHashRes);
+      var signed = privateKey.signMessage(msg);
 
-      var encoded = base64.encode(signed);
-      print(encoded);
+      print(signed);
     });
     test('sign mainnet DFI', () {
       var privateKey = ECPair.fromWIF('L1MYKXoYaKM2tf6iCiEXAv4J3cAK4GazAUePPVBpBXDqHVqyx2Ff', network: defichain);

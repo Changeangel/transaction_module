@@ -1,3 +1,12 @@
+## 3.8.0-prerelease
+- Impl Vault tx
+
+## 3.7.0+1
+- Update export script type
+
+## 3.7.0
+- Add saiive custom outputs
+
 ## 3.6.0+1
 - Update refs
 
