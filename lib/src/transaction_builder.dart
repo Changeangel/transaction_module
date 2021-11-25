@@ -155,6 +155,11 @@ class TransactionBuilder {
     return 0;
   }
 
+  int addSwapV2Output(dynamic fromToken, dynamic from, int fromAmount, dynamic toToken, dynamic to, int maxPrice, int maxPricefraction, List<int> poolIds) {
+    _tx!.addBaseOutputAt(DefiTransactionHelper.createPoolSwapV2Output(fromToken, from, fromAmount, toToken, to, maxPrice, maxPricefraction, poolIds, network), 0);
+    return 0;
+  }
+
   int addCloseVault(dynamic vaultId, dynamic to) {
     _tx!.addBaseOutputAt(DefiTransactionHelper.closeVaultOutput(vaultId, to, network), 0);
     return 0;

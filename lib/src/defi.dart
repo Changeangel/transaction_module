@@ -27,6 +27,7 @@ class DefiTxTypes {
   static var CreatePoolPair = 'p';
   static var UpdatePoolPair = 'u';
   static var PoolSwap = 's';
+  static var PoolSwapV2 = 'i';
   static var AddPoolLiquidity = 'l';
   static var RemovePoolLiquidity = 'r';
 
@@ -245,6 +246,30 @@ class DefiTransactionHelper {
 
     script.addAll(_convertInt64(maxPrice));
     script.addAll(_convertInt64(maxPricefraction));
+
+    var defiScript = Uint8List.fromList(script);
+
+    return DefiOutput(_postpare(defiScript), 0);
+  }
+
+  static DefiOutput createPoolSwapV2Output(int fromToken, String from, int fromAmount, int toToken, String to, int maxPrice, int maxPricefraction, List<int> poolIds,
+      [NetworkType? nw]) {
+    var script = _prepare(DefiTxTypes.PoolSwapV2);
+
+    script.addAll(_createScript(from, nw));
+    script.addAll(_convertUint(fromToken));
+    script.addAll(_convertInt64(fromAmount));
+
+    script.addAll(_createScript(to, nw));
+    script.addAll(_convertUint(toToken));
+
+    script.addAll(_convertInt64(maxPrice));
+    script.addAll(_convertInt64(maxPricefraction));
+
+    script.add(poolIds.length);
+    for (var pool in poolIds) {
+      script.addAll(_convertUint(pool));
+    }
 
     var defiScript = Uint8List.fromList(script);
 
