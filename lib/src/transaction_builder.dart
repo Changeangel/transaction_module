@@ -195,6 +195,11 @@ class TransactionBuilder {
     return 0;
   }
 
+  int addPlaceAuctionBid(dynamic vaultId, dynamic index, dynamic from, dynamic tokenId, dynamic tokenAmount) {
+    _tx!.addBaseOutputAt(DefiTransactionHelper.placeAuctionBidOutput(vaultId, index, from, tokenId, tokenAmount, network), 0);
+    return 0;
+  }
+
   int addSaiiveExportOutput() {
     _tx!.addBaseOutputAt(SaiiveTransactionHelper.createExportOutput(), 0);
     return 0;
