@@ -209,14 +209,14 @@ class DefiTransactionHelper {
     return DefiOutput(_postpare(defiScript), 0);
   }
 
-  static DefiOutput placeAuctionBidOutput(dynamic vaultId, dynamic index, dynamic from, dynamic tokenId, dynamic tokenAmount, [NetworkType? nw]) {
+  static DefiOutput placeAuctionBidOutput(String vaultId, int index, String from, int tokenId, int tokenAmount, [NetworkType? nw]) {
     var script = _prepare(DefiTxTypes.AuctionBid);
 
     var hexDe = hex.decode(vaultId).reversed;
     script.addAll(hexDe);
-    script.addAll(_convertUint(index));
+    script.addAll(_convertInt32(index));
     script.addAll(_createScript(from, nw));
-    script.addAll(_createTokenBalance([tokenId], [tokenAmount], nw));
+    script.addAll(_createTokenBalance(tokenId, tokenAmount, nw));
 
     var defiScript = Uint8List.fromList(script);
 

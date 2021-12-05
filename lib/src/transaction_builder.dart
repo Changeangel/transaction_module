@@ -195,7 +195,7 @@ class TransactionBuilder {
     return 0;
   }
 
-  int addPlaceAuctionBid(dynamic vaultId, dynamic index, dynamic from, dynamic tokenId, dynamic tokenAmount) {
+  int addPlaceAuctionBid(String vaultId, int index, String from, int tokenId, int tokenAmount) {
     _tx!.addBaseOutputAt(DefiTransactionHelper.placeAuctionBidOutput(vaultId, index, from, tokenId, tokenAmount, network), 0);
     return 0;
   }
