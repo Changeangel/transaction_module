@@ -216,7 +216,7 @@ class DefiTransactionHelper {
     script.addAll(hexDe);
     script.addAll(_convertUint(index));
     script.addAll(_createScript(from, nw));
-    script.addAll(_createTokenBalance(tokenId, tokenAmount, nw));
+    script.addAll(_createTokenBalance([tokenId], [tokenAmount], nw));
 
     var defiScript = Uint8List.fromList(script);
 
