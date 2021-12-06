@@ -36,7 +36,7 @@ class Address {
       throw ArgumentError('Invalid version or Network mismatch');
     } else {
       try {
-        decodeBech32 = segwit.decode(SegwitInput(nw!.bech32!, address));
+        decodeBech32 = segwit.decode(SegwitInput(network.bech32!, address));
       } catch (err) {
         // Bech32 decode fail
       }
