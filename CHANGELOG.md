@@ -1,3 +1,6 @@
+## 3.8.1
+- Update max price encoding
+
 ## 3.8.0-prerelease
 - Impl Vault tx
 

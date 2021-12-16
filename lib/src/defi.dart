@@ -277,8 +277,8 @@ class DefiTransactionHelper {
     script.addAll(_createScript(to, nw));
     script.addAll(_convertUint(toToken));
 
-    script.addAll(_convertInt64(maxPrice));
-    script.addAll(_convertInt64(maxPricefraction));
+    script.addAll(_convertUint(maxPrice));
+    script.addAll(_convertUint(maxPricefraction));
 
     script.add(poolIds.length);
     for (var pool in poolIds) {
