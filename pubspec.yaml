@@ -1,7 +1,7 @@
-name: defichaindart
+name: changeangel_transaction_module
 description: A dart DefiChain library for Flutter. BIP32, BIP39, P2PKH integration.
 version: 3.8.1
-homepage: https://github.com/DeFiCh-WalletApp/DeFiChain-dart
+homepage: https://changeangel.io
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
