@@ -13,14 +13,14 @@ import '../payments/p2wpkh.dart';
 import '../payments/p2sh.dart';
 import '../classify.dart';
 
-class TransactionBuilder {
+class RDDTransactionBuilder {
   NetworkType? network;
   int? maximumFeeRate;
   List<Input>? _inputs;
   Transaction? _tx;
   final Map _prevTxSet = {};
 
-  TransactionBuilder({NetworkType? network, int? maximumFeeRate}) {
+  RDDTransactionBuilder({NetworkType? network, int? maximumFeeRate}) {
     this.network = network ?? bitcoin;
     this.maximumFeeRate = maximumFeeRate ?? 2500;
     _inputs = [];
@@ -31,9 +31,9 @@ class TransactionBuilder {
 
   List<Input>? get inputs => _inputs;
 
-  factory TransactionBuilder.fromTransaction(Transaction transaction,
+  factory RDDTransactionBuilder.fromTransaction(Transaction transaction,
       [NetworkType? network]) {
-    final txb = TransactionBuilder(network: network);
+    final txb = RDDTransactionBuilder(network: network);
     // Copy transaction fields
     txb.setVersion(transaction.version);
     txb.setLockTime(transaction.locktime);
