@@ -5,7 +5,7 @@ import 'package:hex/hex.dart';
 import '../utils/script.dart' as bscript;
 import '../ecpair.dart';
 import '../models/networks.dart';
-import 'transaction.dart';
+import 'rddtransaction.dart';
 import '../address.dart';
 import '../payments/index.dart' show PaymentData;
 import '../payments/p2pkh.dart';

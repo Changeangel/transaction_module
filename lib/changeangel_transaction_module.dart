@@ -16,4 +16,4 @@ export 'src/models/networks.dart';
 
 export 'src/utils/magic_hash.dart';
 export 'src/reddcoin/rddtransaction.dart';
-export 'src/reddcoin/rddtransaction_builder.dart'
+export 'src/reddcoin/rddtransaction_builder.dart';
