@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 import 'package:defichaindart/src/defi.dart';
-import 'package:defichaindart/src/saiive.dart';
 import 'package:meta/meta.dart';
 import 'package:hex/hex.dart';
 import 'utils/script.dart' as bscript;
@@ -200,10 +199,10 @@ class TransactionBuilder {
     return 0;
   }
 
-  int addSaiiveExportOutput() {
-    _tx!.addBaseOutputAt(SaiiveTransactionHelper.createExportOutput(), 0);
-    return 0;
-  }
+  // int addSaiiveExportOutput() {
+  //   _tx!.addBaseOutputAt(SaiiveTransactionHelper.createExportOutput(), 0);
+  //   return 0;
+  // }
 
   int addInput(dynamic txHash, int? vout, [int? sequence, Uint8List? prevOutScript]) {
     if (!_canModifyInputs()) {
